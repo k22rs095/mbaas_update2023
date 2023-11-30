@@ -99,7 +99,29 @@
         }
 
         function updateData() {
-            $("#display").html("update does not work");
+            // $("#display").html("update does not work");
+
+            UTdata.fetch()
+            .then(function(results) {
+                // results.set(key, parseInt($("#update").val()));
+                let value = parseInt($("#update").val());
+                results.set(key, value);
+                return results.update();
+            })
+            .then(function(results) {
+                $("#display").removeClass();
+                /*
+                $("#display").addClass("text-light");
+                $("#display").addClass("bg-primary");
+                */
+                $("#display").addClass("bg-success");
+                $("#display").html("update success");
+            })
+            .catch(function(error) {
+                $("#display").removeClass();
+                $("#display").addClass("bg-warning");
+                $("#display").html("update fail:" + JSON.stringify(error));
+            })
         }
     </script>
 </head>
@@ -118,7 +140,7 @@
     </div>
     <div>
         <input type="text" id="update" placeholder="更新">
-        <a onclick="updateData()" class="btn btn-outline-primary" role="button">Update</a>
+        <a onclick="updateData()" class="btn btn-outline-secondary" role="button">Update</a>
     </div>
     <div id="display" class="text-light bg-info">
         Results
